@@ -1,5 +1,12 @@
-FROM alpine:latest
-RUN apk update && apk add bash
+FROM python:3.9-bullseye
 
+# Working Directory
 WORKDIR /app
-COPY repeat.sh /app
+
+# Copy source code to working directory
+COPY requirements.txt bash.sh /app/
+
+# Install packages from requirements.txt
+# hadolint ignore=DL3013
+RUN pip install --no-cache-dir --upgrade pip &&\
+    pip install --no-cache-dir --trusted-host pypi.python.org -r requirements.txt
